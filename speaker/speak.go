@@ -11,7 +11,7 @@ import (
 aai "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/aai/v20180522"
 )
 
-func Speak() {
+func Speak(name string) {
 
 	credential := common.NewCredential(
 		"AKIDwb5OlJEsKcjfSLqkIhvBMPIWZUPEDSzL",
@@ -28,7 +28,7 @@ func Speak() {
 
 	request := aai.NewTextToVoiceRequest()
 
-	params := `{"Text":"欢迎   王明超同学","SessionId":"123","ModelType":1,"VoiceType":0}`
+	params := `{"Text":"欢迎   `+name+`同学","SessionId":"123","ModelType":1,"VoiceType":0}`
 	err := request.FromJsonString(params)
 	if err != nil {
 		panic(err)
