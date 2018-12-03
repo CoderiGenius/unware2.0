@@ -14,7 +14,7 @@ type WSServer struct {
 }
 
 
-//producer处理
+//Deal 发来的语音struct
 func  Deal(content string)  {
 	//开始接受producer内容
 	//当前业务为姓名
