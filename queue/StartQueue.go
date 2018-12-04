@@ -12,9 +12,11 @@ func StartQueue() {
 
 	//新建channel用以储存队列
 	QueueChannel = make(chan string, 10)
-	//新建队列
+	//新建姓名队列
 	Q := Queue{}
+
 	go DealTheQueue(&Q)
+
 	for {
 		s := <-QueueChannel
 		if Q.FindThingsAlreadyInside(s) {
@@ -33,6 +35,7 @@ func StartQueue() {
 	}
 }
 
+//队列处理
 func DealTheQueue(q *Queue)  {
 
 	for{

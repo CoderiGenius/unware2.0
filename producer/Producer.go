@@ -7,6 +7,8 @@ package producer
 import(
 "golang.org/x/net/websocket"
 "fmt"
+"../speaker"
+"../consumer"
 )
 
 type WSServer struct {
@@ -15,13 +17,13 @@ type WSServer struct {
 
 
 //Deal 发来的语音struct
-func  Deal(content string)  {
+func  Deal(response speaker.Response)  {
 	//开始接受producer内容
 	//当前业务为姓名
 
+	consumer.Channel <- response
 
 
-	}
 
 
 }
