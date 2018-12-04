@@ -11,3 +11,4 @@ type Response struct {
 var QueueChannel chan string
 
 var Channel chan ResponseJson
+

@@ -14,9 +14,9 @@ func StartQueue() {
 	//新建channel用以储存队列
 	channel.QueueChannel = make(chan string, 10)
 	//新建姓名队列
-	Q := Queue{}
-
-	go DealTheQueue(&Q)
+	//Q := Queue{}
+	Q := NewQueue()
+	go DealTheQueue(Q)
 
 	for {
 		s := <-channel.QueueChannel
