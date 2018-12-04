@@ -12,6 +12,7 @@ aai "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/aai/v20180522"
 	"io/ioutil"
 	"gopkg.in/yaml.v2"
 	"encoding/json"
+	"../producer"
 )
 
 type myconfig struct {
@@ -61,5 +62,9 @@ func Speak(nameInterface interface{}) {
 	}
 	fmt.Printf("%s", response.ToJsonString())
 	responseStruct := Response{}
-	json.Unmarshal([]byte(response.ToJsonString()),&responseStruct)
+	erro :=json.Unmarshal([]byte(response.ToJsonString()),&responseStruct)
+	if erro!=nil{
+		panic(erro)
+	}
+	go producer.Deal(responseStruct)
 }
