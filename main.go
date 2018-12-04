@@ -3,6 +3,7 @@ package main
 import (
 	"./WebsocketHandler"
 	"./queue"
+	"./consumer"
 	"flag"
 )
 
@@ -12,7 +13,7 @@ func main() {
 
 	//新建队列
 	go queue.StartQueue()
-
+	go consumer.GetFinalQueueFromChannel()
 	//新建websocket服务端
 	addr  := flag.String("a", "127.0.0.1:1234", "WebsocketHandler server listen address")
 	flag.Parse()

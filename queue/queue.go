@@ -3,9 +3,11 @@ package queue
 // A FIFO queue.
 type Queue []interface{}
 
+var lockChannel chan int
 // Pushes the element into the queue.
 // 		e.g. q.Push(123)
 func (q *Queue) Push(v interface{}) {
+
 	*q = append(*q, v)
 }
 

@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"encoding/json"
 
-	"../queue"
+	"../channel"
+	"../consumer"
 )
 
 type WSServer struct {
@@ -56,11 +57,17 @@ for {
 	}
 	if reply.From == "producer" {
 
-		queue.QueueChannel <- reply.Content
+		channel.QueueChannel <- reply.Content
 		SendMessage(conn, "accepted")
 
 	} else if reply.From == "comsumer" {
+		fmt.Println(reply)
 
+		jsonByte,err:= json.Marshal(consumer.DealWithFinalQueue())
+		if err!=nil{
+			fmt.Println("json byte for explorer erro")
+		}
+		SendMessage(conn,string(jsonByte))
 	}
 }
 }

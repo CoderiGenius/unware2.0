@@ -10,9 +10,10 @@ import (
 "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
 aai "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/aai/v20180522"
 	"io/ioutil"
-	"gopkg.in/yaml.v2"
 	"encoding/json"
+	"../channel"
 	"../producer"
+
 )
 
 type myconfig struct {
@@ -29,12 +30,27 @@ type Response struct {
 }
 
 func Speak(nameInterface interface{}) {
-	data, _ := ioutil.ReadFile("config.yml")
-	tencentApi := myconfig{}
-	yaml.Unmarshal(data,&tencentApi)
+	data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
+	//tencentApi := myconfig{}
+	fmt.Println(string(data))
+	//err0 := yaml.Unmarshal(data, &tencentApi)
+	//if err0!=nil{
+	//	fmt.Println(err0)
+	//}
+
+
+	tencent:= myconfig{}
+	errJson := json.Unmarshal(data,&tencent)
+	if errJson!=nil{
+		fmt.Println(errJson)
+	}
+	//fmt.Println(tencent.Tencent.AppId)
 	credential := common.NewCredential(
-		tencentApi.Tencent.AppId,
-		tencentApi.Tencent.AppSecret,
+		tencent.Tencent.AppId,
+		tencent.Tencent.AppSecret,
+		//"AKIDwb5OlJEsKcjfSLqkIhvBMPIWZUPEDSzL",
+		//"LXhgV9d4L3b8UlYhfdR4wgLXadEf0Uo7",
+
 	)
 	//type params struct {
 	//	Text string,
@@ -46,8 +62,8 @@ func Speak(nameInterface interface{}) {
 	client, _ := aai.NewClient(credential, "ap-beijing", cpf)
 
 	request := aai.NewTextToVoiceRequest()
-	name :=nameInterface .(string)
-	params := `{"Text":"欢迎   `+name+`同学","SessionId":"`+name+`","ModelType":1,"VoiceType":0}`
+	name := nameInterface.(string)
+	params := `{"Text":"欢迎   ` + name + `同学","SessionId":"` + name + `","ModelType":1,"VoiceType":0}`
 	err := request.FromJsonString(params)
 	if err != nil {
 		panic(err)
@@ -61,10 +77,12 @@ func Speak(nameInterface interface{}) {
 		panic(err)
 	}
 	fmt.Printf("%s", response.ToJsonString())
-	responseStruct := Response{}
-	erro :=json.Unmarshal([]byte(response.ToJsonString()),&responseStruct)
-	if erro!=nil{
+	responseStruct := channel.ResponseJson{}
+	erro := json.Unmarshal([]byte(response.ToJsonString()), &responseStruct)
+	fmt.Println("after json", responseStruct)
+	if erro != nil {
 		panic(erro)
+	} else {
+		producer.Deal(responseStruct)
 	}
-	go producer.Deal(responseStruct)
 }
