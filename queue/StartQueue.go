@@ -3,20 +3,19 @@ package queue
 import ("fmt"
 "../speaker"
 "../channel"
-	"runtime"
 )
 
 
 
 
-
+var GetChannel chan int
 func StartQueue() {
 
 	//新建channel用以储存队列
 	channel.QueueChannel = make(chan string, 1)
 
 	//新建取queue
-	getChannel := make(chan int,1)
+	GetChannel = make(chan int,1)
 	//新建姓名队列
 	//Q := Queue{}
 	Q := NewQueue()
@@ -29,7 +28,7 @@ func StartQueue() {
 		} else {
 			Q.Push(s)
 			fmt.Println("q pushed!")
-			getChannel <- 1
+			GetChannel <- 1
 
 		}
 
@@ -42,13 +41,15 @@ func DealTheQueue(q *Queue)  {
 	//DealTheQueueChannel <-
 
 	for{
+
 		if !q.IsEmpty(){
 			s:=q.Pop()
 		fmt.Println("queue pop:",s)
 		go speaker.Speak(s)
 		}else {
+			<- GetChannel
 			//fmt.Println("continue")
-			runtime.Gosched()
+			//runtime.Gosched()
 		}
 	}
 
