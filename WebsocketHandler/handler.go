@@ -38,26 +38,25 @@ type Server struct {
 //接受握手消息并判断客户端类型
 //若为 producer 则为人脸识别客户端 若为 consumer 则为浏览器
 func (this *Server) Handler(conn *websocket.Conn) {
-	HandlerChannel := make(chan string,1)
+	//HandlerChannel := make(chan string,1)
 	fmt.Printf("a new ws conn: %s->%s\n", conn.RemoteAddr().String(), conn.LocalAddr().String())
-	var err error
+	//var err error
 
 	var reply RequstJSON
-	var rep0,rep string
+	var rep0 string
 
 
 for {
 	fmt.Println("go")
 	rep0 = GetMessage(conn)
-	if err != nil {
-		panic(err)
-	}
-	HandlerChannel <- rep0
-	rep = <- HandlerChannel
+
+	//HandlerChannel <- rep0
+	//rep = <- HandlerChannel
 	//fmt.Println(rep)
-	err2 := json.Unmarshal([]byte(rep), &reply)
+	err2 := json.Unmarshal([]byte(rep0), &reply)
 	if err2 != nil {
 		fmt.Println("json erro")
+		break
 	}
 	if reply.From == "producer" {
 

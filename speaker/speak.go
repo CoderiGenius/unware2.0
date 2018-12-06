@@ -63,7 +63,7 @@ func Speak(nameInterface interface{}) {
 
 	request := aai.NewTextToVoiceRequest()
 	name := nameInterface.(string)
-	params := `{"Text":"欢迎   ` + name + `同学","SessionId":"` + name + `","ModelType":1,"VoiceType":0}`
+	params := `{"Text":"欢迎   ` + name + `同学","SessionId":"` + name + `","ModelType":2,"VoiceType":0}`
 	err := request.FromJsonString(params)
 	if err != nil {
 		panic(err)
