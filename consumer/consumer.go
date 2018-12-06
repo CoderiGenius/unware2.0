@@ -12,10 +12,13 @@ var Show queue.Queue
 func GetFinalQueueFromChannel(){
 	channel.Channel = make(chan channel.ResponseJson,10)
 	//新建最终显示队列
+	channel.SendMessageToConsumer = make(chan int,1)
 
 	for{
 		temp:=<-channel.Channel
+
 		if !Show.FindThingsAlreadyInside(temp){
+			//channel.SendMessageToConsumer <- 1
 			Show.Push(temp)
 			fmt.Println("show queue pushed!",temp)
 		}
@@ -25,12 +28,16 @@ func GetFinalQueueFromChannel(){
 
 func DealWithFinalQueue()  channel.ResponseJson{
 
-	for{
+
+
 		if !Show.IsEmpty(){
 			s:=Show.Pop()
 			fmt.Println(s)
 			return s.(channel.ResponseJson)
-		}
-	}
+		}else {
+			//<- channel.SendMessageToConsumer
+
+		return channel.ResponseJson{}
+			}
 
 }

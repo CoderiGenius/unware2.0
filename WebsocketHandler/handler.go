@@ -45,13 +45,14 @@ func (this *Server) Handler(conn *websocket.Conn) {
 	var reply RequstJSON
 	var rep0,rep string
 
+
+for {
+	fmt.Println("go")
 	rep0 = GetMessage(conn)
 	if err != nil {
 		panic(err)
 	}
 	HandlerChannel <- rep0
-for {
-
 	rep = <- HandlerChannel
 	//fmt.Println(rep)
 	err2 := json.Unmarshal([]byte(rep), &reply)
@@ -66,11 +67,14 @@ for {
 	} else if reply.From == "comsumer" {
 		fmt.Println(reply)
 
-		jsonByte,err:= json.Marshal(consumer.DealWithFinalQueue())
-		if err!=nil{
-			fmt.Println("json byte for explorer erro")
-		}
-		SendMessage(conn,string(jsonByte))
+
+			jsonByte, err := json.Marshal(consumer.DealWithFinalQueue())
+			if err != nil {
+				fmt.Println("nil or json byte for explorer erro")
+			} else {
+				SendMessage(conn, string(jsonByte))
+			}
+
 	}
 
 }

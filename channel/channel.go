@@ -12,3 +12,4 @@ var QueueChannel chan string
 
 var Channel chan ResponseJson
 
+var SendMessageToConsumer chan int
