@@ -14,6 +14,9 @@ aai "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/aai/v20180522"
 	"../channel"
 	"../producer"
 
+	"os/exec"
+	"os"
+	"strings"
 )
 
 type myconfig struct {
@@ -29,8 +32,9 @@ type Response struct {
 	RequestId string
 }
 
-func Speak(nameInterface interface{}) {
-	data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
+func Speak(contentInterface interface{}) {
+	data, _ := ioutil.ReadFile(getCurrentPath()+"config/config.yml")
+	//data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
 	//tencentApi := myconfig{}
 	fmt.Println(string(data))
 	//err0 := yaml.Unmarshal(data, &tencentApi)
@@ -62,7 +66,7 @@ func Speak(nameInterface interface{}) {
 	client, _ := aai.NewClient(credential, "ap-beijing", cpf)
 
 	request := aai.NewTextToVoiceRequest()
-	name := nameInterface.(string)
+	name := contentInterface.(channel.Content).Name
 	params := `{"Text":"欢迎   ` + name + `同学","SessionId":"` + name + `","ModelType":2,"VoiceType":0}`
 	err := request.FromJsonString(params)
 	if err != nil {
@@ -84,5 +88,18 @@ func Speak(nameInterface interface{}) {
 		panic(erro)
 	} else {
 		producer.Deal(responseStruct)
+	}
+}
+
+func getCurrentPath() string {
+	s, err := exec.LookPath(os.Args[0])
+	checkErr(err)
+	i := strings.LastIndex(s, "\\")
+	path := string(s[0 : i+1])
+	return path
+}
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
 	}
 }

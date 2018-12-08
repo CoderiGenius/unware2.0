@@ -1,5 +1,7 @@
 package queue
 
+import "../channel"
+
 func NewQueue() *Queue{
 	//type QueueV []interface{}
 	QueueV := new(Queue)
@@ -46,7 +48,7 @@ func (q *Queue) FindThingsAlreadyInside(v interface{}) bool  {
 
 	for i:=0;i<len(*q);i++{
 		temp := (*q)[i]
-		if v==temp{
+		if v.(channel.Content).Name==temp.(channel.Content).Name{
 			return true
 		}else {
 			continue

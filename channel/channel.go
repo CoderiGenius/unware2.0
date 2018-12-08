@@ -8,8 +8,16 @@ type Response struct {
 	SessionId string
 	RequestId string
 }
-var QueueChannel chan string
+
+type Content struct{
+	Name string
+	Class string
+	Photo string
+}
+var QueueChannel chan Content
 
 var Channel chan ResponseJson
 
 var SendMessageToConsumer chan int
+
+var Count int

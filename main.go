@@ -15,7 +15,7 @@ func main() {
 	go queue.StartQueue()
 	go consumer.GetFinalQueueFromChannel()
 	//新建websocket服务端
-	addr  := flag.String("a", "127.0.0.1:1234", "WebsocketHandler server listen address")
+	addr  := flag.String("a", "0.0.0.0:1234", "WebsocketHandler server listen address")
 	flag.Parse()
 	wsServer := &WebsocketHandler.Server{
 		ListenAddr : *addr,

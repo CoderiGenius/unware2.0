@@ -12,7 +12,7 @@ var GetChannel chan int
 func StartQueue() {
 
 	//新建channel用以储存队列
-	channel.QueueChannel = make(chan string, 1)
+	channel.QueueChannel = make(chan channel.Content, 1)
 
 	//新建取queue
 	GetChannel = make(chan int,1)
