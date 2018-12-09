@@ -23,7 +23,7 @@ func StartQueue() {
 
 	for {
 		s := <-channel.QueueChannel
-		if Q.FindThingsAlreadyInside(s) {
+		if Q.FindNameAlreadyInQueue(s) {
 			fmt.Println("%s Already exsits ", s)
 		} else {
 			Q.Push(s)

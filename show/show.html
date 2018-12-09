@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns: xmlns: xmlns:background-size="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var int2;
+        var id = 3;
+        var speed = 3000;
+        var int;
+        var ws;
+
+        function getShow() {
+           /* $.get("/OnWall", function (data, status) {
+                //alert("数据：" + data + "\n状态：" + status);
+                console.log(data);
+                if (data != ("waiting")) {
+                    var newid = id + 1;
+                    var oldid = id - 2;
+                    $("#" + id).after("  <div class=\"container\" id=" + newid + "><div class=\"jumbotron\" style=\" text-shadow: 0 0 black;padding-top: initial;padding-bottom: initial;\"><div id=\"box\">" + data + "</div></div></div>");
+
+                    $("#" + oldid).slideUp(1000);
+                    id++;
+                }
+            });*/
+        }
+
+        $(document).ready(function () {
+
+
+            console.log("staring showing process in speed:" + speed);
+
+            init();
+            var intervalId = window.setInterval(start, 1000);
+        });
+
+        function addShow() {
+           /* if (document.getElementById("tem") == null) {
+                $.get("/OutVIPFinal", function (data, status) {
+                    //alert("数据：" + data + "\n状态：" + status);
+                    var http = "ttp";
+
+                    console.log(data.indexOf(http));
+                    if (data.indexOf(http) >= 0) {
+                        $("#0").after("<img id=\"tem\" calss=\"show webbg2 img-rounded\" style=\"display:block;margin-left: auto;height:90%;margin-right: auto; z-index:999\" src=\"" + data + "\" />");
+                        setCookie("time", 7, "999");
+                    } else if (data != null && data != "") {
+                        data = data.split("??")[0];
+                        $("#0").after("<div class=\"container\" id=\"tem\"><div class=\"jumbotron\" style=\" text-shadow: 0 0 black;padding-top: initial;padding-bottom: initial;\"><div id=\"box2\">" + data + "</div></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></div>");
+                        setCookie("time", 7, "999");
+                    }
+                    getShow();
+                });
+
+                if ($("#speed").val() != speed && $("#speed").val() != "") {
+                    speed = $("#speed").val();
+                    window.clearInterval(int);
+                    int = setInterval(addShow, speed);
+                }
+
+            }*/
+        }
+
+        $(document).ready(function () {
+
+            $("button#bbbb").click(function(){alert("12");start()})
+
+          /*  $(function () {
+
+
+                function show() {
+                    addShow();
+                }
+
+                int = setInterval(show, speed);// 注意函数名没有引号和括弧！
+                // 使用setInterval("show()",3000);会报“缺少对象”
+            });*/
+        });
+        $(document).on("click", ".container", function (e) {
+
+            alert(this.id);
+            $("#" + this.id).slideUp();
+            addShow();
+        });
+
+
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+
+        function setCookie(name, value, time) {
+
+            document.cookie = name + "=" + escape(value);
+        }
+
+        function delDiv() {
+            if (document.getElementById('tem') != null) {
+                if (document.getElementById('abTem') != null) {
+                    document.getElementById('abTem').remove();
+                }
+                $("#tem").slideUp(1000);
+                document.getElementById('tem').id = "abTem";
+            }
+        }
+        function init() {
+            ws = new WebSocket("ws://127.0.0.1:1234/ws");
+            ws.onopen = function (evt) {
+                console.log("Connection open ...");
+
+            };
+        };
+        function start() {
+
+            if(ws.readyState!=1){
+                init();
+            }
+            ws.send("{\"From\": \"comsumer\",\"Content\": \"周思成\"}");
+
+
+
+                ws.onmessage = function (evt) {
+                    console.log("Received Message: " + evt.data);
+                    var json = jQuery.parseJSON(evt.data);
+
+                    if(json.Response.SessionId==""){
+
+                    }else {
+
+                    //console.log(json.Response.SessionId)
+
+                    var newid = id + 1;
+                    var oldid = id - 2;
+                    $("#" + id).after("  <div class=\"container\" id=" + newid + ">" +
+                        "" +
+                        "<audio controls=\"controls\" autobuffer=\"autobuffer\" autoplay=\"autoplay\" style=\"" + "display: none;" + "\"> \n" +
+                        "    <source src=\"data:audio/wav;base64," + json.Response.Audio + "\" /> \n" +
+                        "</audio> " +
+                        "<div class=\"jumbotron\" style=\" text-shadow: 0 0 black;padding-top: initial;padding-bottom: initial;\"><div id=\"box\">" + "欢迎" + json.Response.SessionId + "同学" + "</div></div></div>");
+
+                    $("#" + oldid).slideUp(1400);
+                    id++;
+
+                    }
+                };
+
+                ws.onclose = function (evt) {
+                    console.log("Connection closed.");
+                    init();
+                    window.clearInterval(intervalId);
+                    intervalId = window.setInterval(start, 1000);
+                };
+
+
+
+        }
+
+
+    </script>
+    <base href="<%=basePath%>">
+    <style>
+        .show {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1002;
+            overflow: auto;
+        }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            z-index: -1;
+            position: relative;
+        }
+
+        .h0 {
+            font-size: 53px;
+
+            font-weight: bold;
+
+        }
+
+        #box {
+            font-size: 80;
+            text-shadow: 0 0 black;
+            padding-top: initial;
+            padding-bottom: initial;
+        }
+
+        #box2 {
+            font-size: 90;
+            text-shadow: 0 0 black;
+            padding-top: initial;
+            padding-bottom: initial;
+            font-weight: 800
+        }
+
+        .col-center-block {
+            float: none;
+
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .row {
+            padding-left: inherit;
+            padding-right: inherit;
+        }
+
+        .webbg {
+            background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+        }
+
+        .webbg2 {
+            background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+        }
+
+        .webbg3 {
+            background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+        );
+        }
+
+        .webfont {
+            background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+        }
+    </style>
+    <title>信息学院迎新晚会</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+</head>
+
+<body class="webbg3 webbg2" background-size:100%">
+<button id="bbbb">kaishi</button>
+<input id="speed" style="display:none"/>
+<div class="container" id="0">
+    <div class="jumbotron" style=" text-shadow: 0 0 black;
+    padding-top: initial;
+    padding-bottom: initial;">
+        <div id="box"></div>
+    </div>
+</div>
+<br><br><br>
+
+
+
+<tr>
+    <ol>
+        <div class="container" id="1">
+            <div class="jumbotron" style=" text-shadow: 0 0 black;
+    padding-top: initial;
+    padding-bottom: initial;">
+                <div id="box" style="font-size: 80;">欢迎xxx</div>
+
+
+            </div>
+        </div>
+        <div class="container" id="2">
+            <div class="jumbotron" style=" text-shadow: 0 0 black;
+    padding-top: initial;
+    padding-bottom: initial;">
+                <div id="box">欢迎xxx</div>
+
+
+            </div>
+        </div>
+
+        <div class="container" id="3">
+            <div class="jumbotron" style=" text-shadow: 0 0 black;
+    padding-top: initial;
+    padding-bottom: initial;">
+                <div id="box">欢迎xxx</div>
+
+
+            </div>
+        </div>
+    </ol>
+</tr>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

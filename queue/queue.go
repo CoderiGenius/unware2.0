@@ -44,11 +44,23 @@ func (q *Queue) IsEmpty() bool {
 	return len(*q) == 0
 }
 
-func (q *Queue) FindThingsAlreadyInside(v interface{}) bool  {
+func (q *Queue) FindNameAlreadyInQueue(v interface{}) bool  {
 
 	for i:=0;i<len(*q);i++{
 		temp := (*q)[i]
 		if v.(channel.Content).Name==temp.(channel.Content).Name{
+			return true
+		}else {
+			continue
+		}
+	}
+	return false
+}
+func (q *Queue) FindNameAlreadyInFinalQueue(v interface{}) bool  {
+
+	for i:=0;i<len(*q);i++{
+		temp := (*q)[i]
+		if v.(channel.ResponseJson).Response.SessionId==temp.(channel.ResponseJson).Response.SessionId{
 			return true
 		}else {
 			continue

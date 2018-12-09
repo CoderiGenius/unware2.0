@@ -33,8 +33,8 @@ type Response struct {
 }
 
 func Speak(contentInterface interface{}) {
-	data, _ := ioutil.ReadFile(getCurrentPath()+"config/config.yml")
-	//data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
+	//data, _ := ioutil.ReadFile(getCurrentPath()+"config/config.yml")
+	data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
 	//tencentApi := myconfig{}
 	fmt.Println(string(data))
 	//err0 := yaml.Unmarshal(data, &tencentApi)
@@ -83,6 +83,8 @@ func Speak(contentInterface interface{}) {
 	fmt.Printf("%s", response.ToJsonString())
 	responseStruct := channel.ResponseJson{}
 	erro := json.Unmarshal([]byte(response.ToJsonString()), &responseStruct)
+	responseStruct.Response.RequestId = contentInterface.(channel.Content).Photo
+	responseStruct.Response.SessionId =responseStruct.Response.SessionId+"+"+ contentInterface.(channel.Content).Class
 	fmt.Println("after json", responseStruct)
 	if erro != nil {
 		panic(erro)

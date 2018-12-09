@@ -17,7 +17,7 @@ func GetFinalQueueFromChannel(){
 	for{
 		temp:=<-channel.Channel
 
-		if !Show.FindThingsAlreadyInside(temp){
+		if !Show.FindNameAlreadyInFinalQueue(temp){
 			//channel.SendMessageToConsumer <- 1
 			Show.Push(temp)
 			fmt.Println("show queue pushed!",temp)
