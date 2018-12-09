@@ -26,7 +26,7 @@ type WSServer struct {
 func  Deal(response channel.ResponseJson)  {
 	//开始接受producer内容
 	//当前业务为姓名
-	fmt.Println("before push",response)
+	//fmt.Println("before push",response)
 	channel.Channel <- response
 
 

@@ -46,10 +46,10 @@ func (this *Server) Handler(conn *websocket.Conn) {
 	var reply RequstJSON
 	var rep0 string
 	channel.Count++
-fmt.Println(channel.Count)
+//fmt.Println(channel.Count)
 for {
 
-	fmt.Println("go")
+	//fmt.Println("go")
 	//HandlerChannel <- "1"
 	rep0 = GetMessage(conn)
 
@@ -86,7 +86,7 @@ for {
 
 
 func SendMessage(conn *websocket.Conn, message string) bool {
-	fmt.Println("SENDING MESSAGE TO: ", conn.RemoteAddr().String(), " MESSAGE：", message)
+	//fmt.Println("SENDING MESSAGE TO: ", conn.RemoteAddr().String(), " MESSAGE：", message)
 	 con := conn
 	var err error
 	err = websocket.Message.Send(con, message)
@@ -108,7 +108,7 @@ func GetMessage(conn *websocket.Conn) string {
 		fmt.Println(err)
 		return reply
 	}
-	fmt.Println("GET MESSAGE FROM: ", conn.RemoteAddr().String(), " MESSAGE：", reply)
+	//fmt.Println("GET MESSAGE FROM: ", conn.RemoteAddr().String(), " MESSAGE：", reply)
 	//<- HandlerChannel
 
 	return reply

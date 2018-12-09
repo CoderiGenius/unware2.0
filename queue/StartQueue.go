@@ -26,6 +26,7 @@ func StartQueue() {
 		if Q.FindNameAlreadyInQueue(s) {
 			fmt.Println("%s Already exsits ", s)
 		} else {
+
 			Q.Push(s)
 			fmt.Println("q pushed!")
 			GetChannel <- 1

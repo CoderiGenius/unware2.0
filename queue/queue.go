@@ -15,7 +15,10 @@ type Queue []interface{}
 
 
 
+
 var lockChannel chan int
+
+
 
 // Pushes the element into the queue.
 // 		e.g. q.Push(123)
@@ -68,3 +71,6 @@ func (q *Queue) FindNameAlreadyInFinalQueue(v interface{}) bool  {
 	}
 	return false
 }
+
+
+

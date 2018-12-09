@@ -8,6 +8,9 @@ type Response struct {
 	SessionId string
 	RequestId string
 }
+var Json ResponseJson
+
+
 
 type Content struct{
 	Name string

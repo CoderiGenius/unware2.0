@@ -1,8 +1,8 @@
 package consumer
 
-import ("../queue"
-	"fmt"
+import (
 	"../channel"
+	"../queue"
 )
 
 
@@ -18,10 +18,15 @@ func GetFinalQueueFromChannel(){
 		temp:=<-channel.Channel
 
 		if !Show.FindNameAlreadyInFinalQueue(temp){
+			if temp.Response.SessionId != channel.Json.Response.SessionId{
+				Show.Push(temp)
+				//fmt.Println("show queue pushed!",temp)
+				channel.Json = temp
+			}
 			//channel.SendMessageToConsumer <- 1
-			Show.Push(temp)
-			fmt.Println("show queue pushed!",temp)
+
 		}
+
 
 	}
 }
@@ -32,7 +37,7 @@ func DealWithFinalQueue()  channel.ResponseJson{
 
 		if !Show.IsEmpty(){
 			s:=Show.Pop()
-			fmt.Println(s)
+			//fmt.Println(s)
 			return s.(channel.ResponseJson)
 		}else {
 			//<- channel.SendMessageToConsumer

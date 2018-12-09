@@ -13,6 +13,7 @@ aai "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/aai/v20180522"
 	"encoding/json"
 	"../channel"
 	"../producer"
+	"../SelfMap"
 
 	"os/exec"
 	"os"
@@ -36,7 +37,7 @@ func Speak(contentInterface interface{}) {
 	//data, _ := ioutil.ReadFile(getCurrentPath()+"config/config.yml")
 	data, _ := ioutil.ReadFile("D:\\go\\workplace\\unware\\config\\config.yml")
 	//tencentApi := myconfig{}
-	fmt.Println(string(data))
+	//fmt.Println(string(data))
 	//err0 := yaml.Unmarshal(data, &tencentApi)
 	//if err0!=nil{
 	//	fmt.Println(err0)
@@ -67,7 +68,13 @@ func Speak(contentInterface interface{}) {
 
 	request := aai.NewTextToVoiceRequest()
 	name := contentInterface.(channel.Content).Name
+	title := SelfMap.FindHashMap(name)
 	params := `{"Text":"欢迎   ` + name + `同学","SessionId":"` + name + `","ModelType":2,"VoiceType":0}`
+	//fmt.Println(len(title))
+	if len(title)>1{
+		params = `{"Text":"欢迎   ` + name +title+ `","SessionId":"` + name + `","ModelType":2,"VoiceType":0}`
+	}
+
 	err := request.FromJsonString(params)
 	if err != nil {
 		panic(err)

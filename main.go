@@ -5,11 +5,16 @@ import (
 	"./queue"
 	"./consumer"
 	"flag"
+	"./SelfMap"
 
 )
 
 
 func main() {
+
+
+	//初始化特殊人员队列
+	go SelfMap.InitMap()
 
 	//新建队列
 	go queue.StartQueue()
