@@ -1,10 +1,10 @@
 package WebsocketHandler
 
 import (
-	"golang.org/x/net/websocket"
-	"fmt"
-	"net/http"
 	"encoding/json"
+	"fmt"
+	"golang.org/x/net/websocket"
+	"net/http"
 
 	"../channel"
 	"../consumer"
@@ -113,6 +113,9 @@ func GetMessage(conn *websocket.Conn) string {
 
 	return reply
 }
+
+
+
 func (this *Server) Start() (error) {
 	//配置handle
 	http.Handle("/ws", websocket.Handler(this.Handler))
@@ -125,6 +128,8 @@ func (this *Server) Start() (error) {
 		fmt.Println("ListenAndServe:", err)
 		return err
 	}
+
+
 	fmt.Println("start end")
 	return nil
 }
